@@ -1,0 +1,70 @@
+#groups {
+    display: block;
+    font-family: Roboto, Verdana;
+    height: 90%;
+    overflow-y: auto;
+    padding: 10px;
+    padding-right: 25px;
+    position: fixed;
+    right: 10px;
+    top: 5%;
+}
+
+#groups ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#groups ul ul {
+    padding-left: 30px;
+}
+
+#groups li:not(.active) ul a  {
+    pointer-events: none;
+    cursor: default;
+}
+
+#groups a {
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-left: 5px solid transparent;
+    display: inline-block;
+    padding: 5px 15px;
+    margin: 5px 0px;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+
+#groups li > a {
+    background-color: #EEE;
+    border-left-color: #F00;
+    box-shadow: 2px 2px 2px #AAA;
+    color: #333;
+}
+
+#groups li > a:hover {
+    box-shadow: 4px 4px 4px #AAA;
+}
+
+#groups li.active > a {
+    border-left-color: #0F0;
+}
+
+#groups li:not(.active) li.active > a {
+    border-left-color: #CCC;
+}
+
+
+
+#groups.invert li > a {
+    background-color: #222;
+    box-shadow: 2px 2px 2px #111;
+    color: #888;
+}
+
+#groups.invert li > a:hover {
+    box-shadow: 4px 4px 4px #111;
+}

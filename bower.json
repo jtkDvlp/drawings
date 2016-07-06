@@ -1,0 +1,17 @@
+{
+  "name": "drawings",
+  "authors": [
+    "JT Knabenschuh <jtkdevelopments@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "underscore": "^1.8.3",
+    "jquery": "^3.1.0",
+    "jquery.hotkeys": "*",
+    "underscore-contrib": "^0.3.0"
+  }
+}
