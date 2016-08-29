@@ -12,6 +12,7 @@
     "underscore": "^1.8.3",
     "jquery": "^3.1.0",
     "jquery.hotkeys": "*",
-    "underscore-contrib": "^0.3.0"
+    "underscore-contrib": "^0.3.0",
+    "js-cookie": "^2.1.2"
   }
 }

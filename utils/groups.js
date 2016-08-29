@@ -5,6 +5,7 @@
 
       self._initSelf();
       self._initGroups();
+      self._applyPersistState();
     },
 
     _id: "groups",
@@ -23,11 +24,13 @@
 
       $(document).bind(self._toggleShortcut, function() {
         $("#" + self._id).toggle();
+        self._updatePersistState({"self-hidden": $("#" + self._id).is(":hidden")})
         return false;
       });
 
       $(document).bind(self._invertShortcut, function() {
         $("#" + self._id).toggleClass("invert");
+        self._updatePersistState({"self-invert": $("#" + self._id).hasClass("invert")})
         return false;
       });
     },
@@ -86,11 +89,45 @@
     },
 
     // TODO: Handle conflict toggle!
-    _toggle: function(group) {
+    _toggle: function(group, state) {
       console.debug("groups: _toggle", group);
 
-      $("[" + self._queryAttributeName + "~=" + group + "]").toggle();
-      $("." + self._togglerPrefix + group).toggleClass("active");
+      var persistState = {"groups-hidden":{}};
+      state = (state == undefined ?
+               $("[" + self._queryAttributeName + "~=" + group + "]").is(":visible") :
+               state);
+
+      if(state){$("[" + self._queryAttributeName + "~=" + group + "]").hide();}
+      else{$("[" + self._queryAttributeName + "~=" + group + "]").show();}
+      $("." + self._togglerPrefix + group).toggleClass("active", !state);
+
+
+      persistState["groups-hidden"][group] = state;
+      self._updatePersistState(persistState);
+    },
+
+    _applyPersistState: function() {
+      console.debug("groups: _applyPersistState");
+
+      var state = Cookies.getJSON(self._id) || {};
+      if(state["self-hidden"]){$("#" + self._id).hide();}
+      $("#" + self._id).toggleClass("invert", state["self-invert"]);
+
+      var groupsHidden = state["groups-hidden"];
+      for(var group in groupsHidden) {
+        self._toggle(group, groupsHidden[group]);
+      }
+    },
+
+    _updatePersistState: function(state) {
+      console.debug("groups: _updatePersistState");
+
+      Cookies.set(
+        self._id,
+        $.extend(
+          true,
+          (Cookies.getJSON(self._id) || {}),
+          state));
     }};
 
   self.init();
