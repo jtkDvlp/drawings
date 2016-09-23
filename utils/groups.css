@@ -54,7 +54,7 @@
     border-left-color: #0F0;
 }
 
-#groups li:not(.active) li.active > a {
+#groups li:not(.active) ul a {
     border-left-color: #CCC;
 }
 

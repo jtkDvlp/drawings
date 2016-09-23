@@ -9,10 +9,12 @@
     },
 
     _id: "groups",
-    _togglerPrefix: "groups_",
+    _prefix: "groups_",
     _queryAttributeName: "data-groups",
+    _queryAttributeTogglerName: "data-group",
     _attributeSplitter: " ",
     _attributeName: "groups",
+    _attributeTogglerName: "group",
     _hierarchySplitter: "__",
     _toggleShortcut: "keydown.ctrl_h",
     _invertShortcut: "keydown.ctrl_i",
@@ -74,8 +76,8 @@
           var idParts = id.split(self._hierarchySplitter);
           var name = (idParts.length === 1 ? id : idParts[1]);
 
-          output += "<li class='" + self._togglerPrefix + id + " active' >";
-          output += "<a href='javascript:groups._toggle(\"" + id + "\");'>" + name + "</a>";
+          output += "<li class='" + self._prefix + id + " active' >";
+          output += "<a " + self._queryAttributeTogglerName + "=\"" + id + "\" href='javascript:groups._toggle(\"" + id + "\");'>" + name + "</a>";
           if(allGroups[name]) {
             output += renderer(allGroups[name]);
           }
@@ -94,16 +96,19 @@
 
       var persistState = {"groups-hidden":{}};
       state = (state == undefined ?
-               $("[" + self._queryAttributeName + "~=" + group + "]").is(":visible") :
+               $("." + self._prefix + group).hasClass("active") :
                state);
 
       if(state){$("[" + self._queryAttributeName + "~=" + group + "]").hide();}
       else{$("[" + self._queryAttributeName + "~=" + group + "]").show();}
-      $("." + self._togglerPrefix + group).toggleClass("active", !state);
-
+      $("." + self._prefix + group).toggleClass("active", !state);
 
       persistState["groups-hidden"][group] = state;
       self._updatePersistState(persistState);
+
+      $("." + self._prefix + group + "> ul > li > a") .each(function() {
+        self._toggle(this.dataset[self._attributeTogglerName], state);
+      });
     },
 
     _applyPersistState: function() {
